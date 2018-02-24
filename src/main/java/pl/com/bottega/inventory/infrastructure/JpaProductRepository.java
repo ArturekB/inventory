@@ -6,9 +6,11 @@ import pl.com.bottega.inventory.domain.ProductRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class JpaProductRepository implements ProductRepository {
@@ -33,12 +35,9 @@ public class JpaProductRepository implements ProductRepository {
 
     @Override
     public Set<Product> getAll(Set<String> skus) {
-        Set<Product> result = new HashSet<>();
-        for (String s : skus) {
-            if (getOptional(s).isPresent())
-                result.add(getOptional(s).get());
-        }
-        return result;
+        List<Product> result = entityManager.createQuery("FROM Product p WHERE (p.skuCode IN :values)", Product.class)
+                .setParameter("values", skus).getResultList();
+        return new HashSet<>(result);
     }
 
 }
