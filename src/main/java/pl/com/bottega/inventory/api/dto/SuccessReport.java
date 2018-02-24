@@ -2,25 +2,14 @@ package pl.com.bottega.inventory.api.dto;
 
 import java.util.Map;
 
-public class SuccessReport implements PurchaseReport {
+public class SuccessReport extends PurchaseReport {
 
-    private boolean success;
     private Map<String, Long> purchasedProducts;
 
-    public SuccessReport() {
-    }
 
-    SuccessReport(Map<String, Long> map) {
-        success = true;
+    public SuccessReport(Map<String, Long> map) {
+        super(true);
         purchasedProducts = map;
-    }
-
-    public boolean getSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean status) {
-        this.success = status;
     }
 
     public Map<String, Long> getPurchasedProducts() {

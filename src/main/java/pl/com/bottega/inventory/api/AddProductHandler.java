@@ -24,7 +24,7 @@ public class AddProductHandler {
         if (optionalProduct.isPresent()) {
             Product product = optionalProduct.get();
             product.addToCount(cmd.getAmount());
-            repository.update(product);
+            repository.save(product);
         } else
             repository.save(new Product(cmd));
     }

@@ -33,12 +33,12 @@ public class Product {
     }
 
 
-    public boolean isEnough(Map<String, Long> products) {
-        return products.get(skuCode) <= amount;
+    public boolean isEnough(Long requestedAmount) {
+        return requestedAmount <= amount;
     }
 
-    public void updateAmount(Map<String, Long> required) {
-        amount -= required.get(skuCode);
+    public void updateAmount(Long count) {
+        amount -= count;
     }
 
 

@@ -1,10 +1,18 @@
 package pl.com.bottega.inventory.api.dto;
 
-import pl.com.bottega.inventory.domain.Product;
+public abstract class PurchaseReport {
 
-import java.util.Map;
-import java.util.Set;
+    private boolean success;
 
-public interface PurchaseReport {
+    PurchaseReport(boolean success) {
+        this.success = success;
+    }
 
-   }
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+}
