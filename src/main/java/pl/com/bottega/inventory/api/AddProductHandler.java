@@ -7,6 +7,7 @@ import pl.com.bottega.inventory.domain.commands.AddProductCommand;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 @Component
 public class AddProductHandler {
@@ -21,12 +22,9 @@ public class AddProductHandler {
     @Transactional
     public void handle(AddProductCommand cmd) {
         Optional<Product> optionalProduct = repository.getOptional(cmd.getSkuCode());
-        if (optionalProduct.isPresent()) {
-            Product product = optionalProduct.get();
+        Product product = optionalProduct.orElse(new Product(cmd));
+        if (optionalProduct.isPresent())
             product.addToCount(cmd.getAmount());
-            repository.save(product);
-        } else
-            repository.save(new Product(cmd));
+        repository.save(product);
     }
-
 }

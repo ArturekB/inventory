@@ -1,9 +1,7 @@
 package pl.com.bottega.inventory.api;
 
 import org.springframework.stereotype.Component;
-import pl.com.bottega.inventory.api.dto.FailReport;
 import pl.com.bottega.inventory.api.dto.PurchaseReport;
-import pl.com.bottega.inventory.api.dto.SuccessReport;
 import pl.com.bottega.inventory.domain.Product;
 import pl.com.bottega.inventory.domain.ProductRepository;
 import pl.com.bottega.inventory.domain.commands.InvalidCommandException;
@@ -34,13 +32,14 @@ public class PurchaseProductHandler {
         validateSkuCodesOfProducts(skus, availableProducts);
 
         Map<String, Long> required = cmd.getProducts();
-        Set<Product> availableForPurchase = new HashSet<>();
+        Set<Product> enoughForPurchase = new HashSet<>();
         Set<Product> notEnoughForPurchase = new HashSet<>();
 
-        checkAvailabilityOfAllProducts(availableProducts, required, availableForPurchase, notEnoughForPurchase);
+        sortRequiredProducts(availableProducts, required, enoughForPurchase, notEnoughForPurchase);
 
-        if (availableForPurchase.size() == required.size()) {
-            return performPurchase(availableForPurchase, required);
+        if (enoughForPurchase.size() == required.size()) {
+            performPurchase(enoughForPurchase, required);
+            return new PurchaseReport(true, required);
         } else
             return createResponse(notEnoughForPurchase, required);
     }
@@ -57,7 +56,7 @@ public class PurchaseProductHandler {
             throw new InvalidCommandException(errors);
     }
 
-    private void checkAvailabilityOfAllProducts(Set<Product> availableProducts, Map<String, Long> required, Set<Product> availableForPurchase, Set<Product> notEnoughForPurchase) {
+    private void sortRequiredProducts(Set<Product> availableProducts, Map<String, Long> required, Set<Product> availableForPurchase, Set<Product> notEnoughForPurchase) {
         availableProducts.forEach(p -> {
             if (p.isEnough(required.get(p.getSkuCode())))
                 availableForPurchase.add(p);
@@ -74,15 +73,14 @@ public class PurchaseProductHandler {
                 choosen.put(p.getSkuCode(), required.get(p.getSkuCode()));
             }
         }
-        return new FailReport(choosen);
+        return new PurchaseReport(false, choosen);
     }
 
-    private PurchaseReport performPurchase(Set<Product> products, Map<String, Long> required) {
+    private void performPurchase(Set<Product> products, Map<String, Long> required) {
         for (Product p : products) {
             p.updateAmount(required.get(p.getSkuCode()));
             repository.save(p);
         }
-        return new SuccessReport(required);
     }
 
 

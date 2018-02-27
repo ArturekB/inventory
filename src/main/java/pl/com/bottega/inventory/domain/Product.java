@@ -5,9 +5,10 @@ import pl.com.bottega.inventory.domain.commands.AddProductCommand;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Map;
+import java.util.function.Supplier;
 
 @Entity
-public class Product {
+public class Product{
 
     @Id
     private String skuCode;
@@ -45,6 +46,7 @@ public class Product {
     public String getSkuCode() {
         return skuCode;
     }
+
 }
 
 
