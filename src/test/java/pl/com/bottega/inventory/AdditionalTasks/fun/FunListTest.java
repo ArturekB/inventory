@@ -3,7 +3,7 @@ package pl.com.bottega.inventory.AdditionalTasks.fun;
 //import org.junit.Test;
 
 import org.junit.Test;
-import pl.com.bottega.inventory.additionalFeature.fun.FunList;
+import pl.com.bottega.inventory.additionalFeature.functionalPrograming.FunList;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 

@@ -1,4 +1,4 @@
-package pl.com.bottega.inventory.additionalFeature.fun;
+package pl.com.bottega.inventory.additionalFeature.functionalPrograming;
 
 import java.util.function.BiFunction;
 import java.util.function.Consumer;

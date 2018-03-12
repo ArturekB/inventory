@@ -1,4 +1,4 @@
-package pl.com.bottega.inventory.additionalFeature.fun;
+package pl.com.bottega.inventory.additionalFeature.functionalPrograming;
 
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -39,7 +39,6 @@ class EmptyList<T> implements FunList<T> {
     public <AccT> AccT foldLeft(AccT identity, BiFunction<AccT, T, AccT> folder) {
         return identity;
     }
-
 
     public static FunList getInstance() {
         return INSTANCE;

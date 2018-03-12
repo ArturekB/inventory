@@ -1,4 +1,4 @@
-package pl.com.bottega.inventory.additionalFeature.fun;
+package pl.com.bottega.inventory.additionalFeature.functionalPrograming;
 
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -14,7 +14,7 @@ class NonEmptyList<T> implements FunList<T> {
         tail = EmptyList.getInstance();
     }
 
-    NonEmptyList(T head, FunList<T> tail) {
+    private NonEmptyList(T head, FunList<T> tail) {
         this.head = head;
         this.tail = tail;
     }
