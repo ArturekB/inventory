@@ -1,0 +1,57 @@
+﻿Java Backend Developer - TEST 3
+
+Stwórz prostą aplikację umożliwiającą zakup towarów.
+
+Aplikacja udostępnia 2 endpointy.
+
+POST /inventory
+
+{
+	"skuCode": "XXXXX",
+	"count": 99
+}
+
+Endpoint DODAJE do magazynu zadaną, w parametrze count, liczbę produktów o identyfikatorze skuCode. Jeśli w magazynie są już takie produkty, ich liczba jest zwiększana o zadaną ilość. Obydwie wartości są wymagane i 0 < count < 1000. W przypadku błędu, endpoint odpowiada odpowiednią informacją.
+
+POST /purchase
+
+{
+	"XX": 999,
+	"YY": 888
+	"ZZ": 777
+
+}
+
+Endpoint pozwala zakupić zadane ilości towarów o zadanych identyfikatorach. W przykładzie powyżej, klient kupuje 999 produktów o id XX, 888 o id YY i 777 o id ZZ.
+
+Reguły walidacji:
+	- co najmniej jedna pozycja do zakupu
+	- id pozycji musi być poprawny
+	- ilość produktów musi być > 0 i < 1000
+
+W przypadku błędu należy odpowiedzieć odpowiednią informacją.
+
+W przypadku poprawnych parametrów oraz gdy w magazynie jest wystarczająca ilość KAŻDEGO produktu, aplikacja powinna zmniejszyć ilość dostępnych produktów każdego typu i odpowiedzieć podsumowaniem zakupów:
+{
+	"success": true,
+	"purchasedProducts": {	
+		"XX": 999,
+		"YY": 888
+		"ZZ": 777
+	}
+
+}
+
+W przypadku poprawnych parametrów oraz gdy w magazynie nie ma wystarczającej ilości CO NAJMNIEJ JEDNEGO produktu, aplikacja NIE zmniejsza dostępności żadnego z produktów i odpowiada podsumowaniem. W podsumowaniu wyświetlamy informację, których produktów brakuje.
+{
+	"success": false,
+	"missingProducts": {	
+		"XX": 999 // ilość dokładnie taka sama jak w rządaniu
+	}
+
+}
+
+
+Szkielet aplikacji znajduje się pod adresem https://github.com/mzubala/inventory. Aplikacja jest już skonfigurowana tak żeby korzystała ze springa, jpa, spring mvc oraz pamięciowej bazy danych HSQL. Znajdują się tam też podstawowe mechanizmy do walidacji ValidationAspect i interface Validatable, ale nie musisz z nich korzystać. Twoim zadaniem jest dopisać brakujący kod warstwy ui, api i modelu, tak żeby testy end to end były zdane. Testy testują wszystkie w.w. aspekty funkcjonalności, wysyłając requesty do aplikacji i sprawdzając jsona wynikowego.
+
+Powodzenia!!!
